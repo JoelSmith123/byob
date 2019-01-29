@@ -1,10 +1,9 @@
 // Update with your config settings.
 
 module.exports = {
-
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/cities',
+    connection: 'postgres://localhost/cities_restaurants',
     migrations: {
       directory: './db/migrations'
     },
@@ -14,36 +13,28 @@ module.exports = {
     useNullAsDefault: true
   },
 
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
+  test: {
+    client: 'pg',
+    connection: 'postgres://localhost/byob-test',
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      directory: './db/migrations'
+    },
+    seeds: {
+      directory: './db/seeds/test'
+    },
+    useNullAsDefault: true
   },
 
   production: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
+    client: 'pg',
+    connection: process.env.DATABASE_URL + `?ssl=true`,
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      directory: './db/migrations'
+    },
+    seeds: {
+      directory: './db/seeds/production'
+    },
+    useNullAsDefault: true
   }
-
 };
+
