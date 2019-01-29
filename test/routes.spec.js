@@ -78,7 +78,7 @@ describe('API Routes', () => {
     }) 
   })
 
-  describe('/api/v1/cities/:id', (done) => {
+  describe('/api/v1/cities/:id', () => {
     it('GET a city by id', () => {
       chai.request(server)
       .get('/api/v1/cities/1')
@@ -161,7 +161,7 @@ describe('API Routes', () => {
       })
     })
 
-    it('POST a restaurant to the restaurants array', () => {
+    it('POST a restaurant to the restaurants array', (done) => {
       chai.request(server)
       .post('/api/v1/students')
       .send({
@@ -185,6 +185,21 @@ describe('API Routes', () => {
         response.body.rating.should.equal(1.1)
         response.body.should.have.property('avg_cost')
         response.body.avg_cost.should.equal('$100')
+        done()
+      })
+    })
+
+    it('POST sad: fail to add restaurant', (done) => {
+      chai.request(server)
+      .post('/api/v1/students')
+      .send({
+        name: 'All The Tacos',
+        address: '345 Yet Another Street'
+      })
+      .end((error, response) => {
+        response.should.have.status(422)
+        response.should.be.json
+        response.body.should.have.property('error')
         done()
       })
     })
