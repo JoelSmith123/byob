@@ -18,7 +18,8 @@ exports.up = function(knex, Promise) {
       table.string('city')
       table.integer('rating')
       table.string('avg_cost')
-      table.foreign('cities_id')
+      table.integer('city_id').unsigned()
+      table.foreign('city_id')
         .references('cities.id')
 
       table.timeStamps(true, true)
@@ -28,7 +29,7 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('cities'),
-    knex.schema.dropTable('restaurants')
+    knex.schema.dropTable('restaurants'),
+    knex.schema.dropTable('cities')
   ])
 }
