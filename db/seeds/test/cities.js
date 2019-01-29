@@ -1,4 +1,4 @@
-const cityData = require('../../cityData')
+const cityData = require('../../testCityData')
 
 
 const createCity = (knex, city) => {
@@ -32,8 +32,8 @@ const createRestaurant = (knex, restaurant) => {
 };
 
 exports.seed = (knex, Promise) => {
-  return knex('restaurants').del()
-    .then(() => knex('cities').del())
+  return knex('restaurants').del() 
+    .then(() => knex('cities').del()) 
     .then(() => {
       let cityPromises = [];
 
