@@ -78,7 +78,7 @@ describe('API Routes', () => {
     }) 
   })
 
-  describe('/api/v1/cities/:id', () => {
+  describe('/api/v1/cities/:id', (done) => {
     it('GET a city by id', () => {
       chai.request(server)
       .get('/api/v1/cities/1')
@@ -98,7 +98,7 @@ describe('API Routes', () => {
       })
     })
 
-    it('PUT a city by id', () => {
+    it('PUT a city by id', (done) => {
       chai.request(server)
       .put('/api/v1/cities/1')
       .send({
@@ -119,7 +119,7 @@ describe('API Routes', () => {
         done()      
     })
 
-    it('DELETE a city by id', () => {
+    it('DELETE a city by id', (done) => {
       chai.request(server)
       .delete('/api/v1/cities/1')
       .end((error, response) => {
@@ -134,6 +134,57 @@ describe('API Routes', () => {
         response.body.population.should.equal(8622698)
         response.body.should.have.property('capital')
         response.body.capital.should.equal(false)
+        done()
+      })
+    })
+  })
+
+  describe('/api/v1/restaurants', () => {
+    it('GET array all restaurants', (done) => {
+      chai.request(server)
+      .get('/api/v1/restaurants')
+      .end((error, response) => {
+        response.should.have.status(200)
+        response.should.be.json
+        response.body.should.be.a('array')
+        response.body[0].should.have.property('name')
+        response.body[0].name.should.equal('Los Tacos No. 1')
+        response.body[0].should.have.property('address')
+        response.body[0].property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
+        response.body[0].should.have.property('city')
+        response.body[0].city.should.equal('New York City')
+        response.body[0].should.have.property('rating')
+        response.body[0].rating.should.equal(4.4)
+        response.body[0].should.have.property('avg_cost')
+        response.body[0].avg_cost.should.equal('$25')
+        done()
+      })
+    })
+
+    it('POST a restaurant to the restaurants array', () => {
+      chai.request(server)
+      .post('/api/v1/students')
+      .send({
+        name: 'Lotsa Tacos',
+        address: '123 Another Street',
+        city: 'Hogsmeade',
+        rating: 1.1,
+        avg_cost: '$100'
+      })
+      .end((error, response) => {
+        response.should.have.status(201)
+        response.should.be.json
+        response.body.should.be.a('object')
+        response.body.should.have.property('name')
+        response.body.name.should.equal('Lotsa Tacos')
+        response.body.should.have.property('address')
+        response.body.property.should.equal('123 Another Street')
+        response.body.should.have.property('city')
+        response.body.city.should.equal('Hogsmeade')
+        response.body.should.have.property('rating')
+        response.body.rating.should.equal(1.1)
+        response.body.should.have.property('avg_cost')
+        response.body.avg_cost.should.equal('$100')
         done()
       })
     })
