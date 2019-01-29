@@ -226,5 +226,29 @@ describe('API Routes', () => {
         done()
       })
     })
+
+    it('PUT a restaurant by id', (done) => {
+      chai.request(server)
+      .put('/api/v1/restaurants/1')
+      .send({
+        name: 'All The Tacos'
+      })
+      .end((error, response) => {
+        response.should.have.status(200)
+        response.should.be.json
+        response.body.should.be.a('object')
+        response.body.should.have.property('name')
+        response.body.name.should.equal('All The Tacos')
+        response.body.should.have.property('address')
+        response.body.property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
+        response.body.should.have.property('city')
+        response.body.city.should.equal('New York City')
+        response.body.should.have.property('rating')
+        response.body.rating.should.equal(4.4)
+        response.body.should.have.property('avg_cost')
+        response.body.avg_cost.should.equal('$25')
+        done()
+      })
+    })
   })
 })
