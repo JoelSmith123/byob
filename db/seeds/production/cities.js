@@ -1,4 +1,4 @@
-const cityData = require('../../cityData')
+const cityData = require('../../../utils/cityData')
 
 
 const createCity = (knex, city) => {
