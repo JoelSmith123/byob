@@ -272,4 +272,27 @@ describe('API Routes', () => {
       })
     })
   })
+
+  describe('/api/v1/cities/:id/restaurants', () => {
+    it('GET restaurants from a specific city by id', (done) => {
+      chai.request(server)
+      .get('/api/v1/cities/1/restaurants')
+      .end((error, response) => {
+        response.should.have.status(200)
+        response.should.be.json
+        response.body.should.be.a('array')
+        response.body[0].should.have.property('name')
+        response.body[0].name.should.equal('Los Tacos No. 1')
+        response.body[0].should.have.property('address')
+        response.body[0].property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
+        response.body[0].should.have.property('city')
+        response.body[0].city.should.equal('New York City')
+        response.body[0].should.have.property('rating')
+        response.body[0].rating.should.equal(4.4)
+        response.body[0].should.have.property('avg_cost')
+        response.body[0].avg_cost.should.equal('$25')
+        done()
+      })
+    })
+  })
 })
