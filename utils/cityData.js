@@ -1,6 +1,6 @@
 const cityData = [
   {
-    name: 'New York',
+    name: 'New York City',
     state: 'NY',
     population: 8622698,
     capital: false 
@@ -20,73 +20,73 @@ const cityData = [
   {
     name: 'Houston',
     state: 'TX',
-    population: 2,312,717,
+    population: 2312717,
     capital: false 
   },
   {
     name: 'Phoenix',
     state: 'AZ',
-    population: 1,626,078,
+    population: 1626078,
     capital: true 
   },
   {
     name: 'Philadelphia',
     state: 'PA',
-    population: 1,580,863,
+    population: 1580863,
     capital: false 
   },
   {
     name: 'San Antonio',
     state: 'TX',
-    population: 1,511,946,
+    population: 1511946,
     capital: false 
   },
   {
     name: 'San Diego',
     state: 'CA',
-    population: 1,419,516,
+    population: 1419516,
     capital: false 
   },
   {
     name: 'Dallas',
     state: 'TX',
-    population: 1,341,075,
+    population: 1341075,
     capital: false 
   },
   {
     name: 'San Jose',
     state: 'CA',
-    population: 1,035,317,
+    population: 1035317,
     capital: false 
   },
   {
     name: 'Austin',
     state: 'TX',
-    population: 950,715,
+    population: 950715,
     capital: true 
   },
   {
     name: 'Jacksonville',
     state: 'FL',
-    population: 892,062,
+    population: 892062,
     capital: false 
   },
   {
     name: 'San Francisco',
     state: 'CA',
-    population: 884,363,
+    population: 884363,
     capital: false 
   },
   {
     name: 'Columbus',
     state: 'OH',
-    population: 879,170,
+    population: 879170,
     capital: true 
   },
   {
     name: 'Fort Worth',
     state: 'TX',
-    population: 874,168,
+    population: 874168,
     capital: false 
   },
   {
@@ -104,13 +104,13 @@ const cityData = [
   {
     name: 'Seattle',
     state: 'WA',
-    population: 724,745,
+    population: 724745,
     capital: false 
   },
   {
     name: 'Denver',
     state: 'CO',
-    population: 704,621,
+    population: 704621,
     capital: true 
   },
   {
@@ -122,67 +122,67 @@ const cityData = [
   {
     name: 'El Paso',
     state: 'TX',
-    population: 683,577,
+    population: 683577,
     capital: false 
   },
   {
     name: 'Detroit',
     state: 'MI',
-    population: 673,104,
+    population: 673104,
     capital: false 
   },
   {
     name: 'Nashville',
     state: 'TN',
-    population: 667,560,
+    population: 667560,
     capital: true 
   },
   {
     name: 'Memphis',
     state: 'TN',
-    population: 652,236,
+    population: 652236,
     capital: false 
   },
   {
     name: 'Portland',
     state: 'OR',
-    population: 647,805,
+    population: 647805,
     capital: false 
   },
   {
     name: 'Oklahoma City',
     state: 'OK',
-    population: 643,648,
+    population: 643648,
     capital: true 
   },
   {
     name: 'Las Vegas',
     state: 'NV',
-    population: 641,676,
+    population: 641676,
     capital: false 
   },
   {
     name: 'Louisville',
     state: 'KY',
-    population: 621,349,
+    population: 621349,
     capital: false 
   },
   {
     name: 'Baltimore',
     state: 'MD',
-    population: 611,648,
+    population: 611648,
     capital: false 
   },
   {
     name: 'Milwaukee',
     state: 'WI',
-    population: 595,351,
+    population: 595351,
     capital: false 
   },
   {
     name: 'Kansas City',
     state: 'MO',
-    population: 488,943,
+    population: 488943,
     capital: false 
   },
 ]
