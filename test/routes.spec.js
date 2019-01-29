@@ -294,5 +294,33 @@ describe('API Routes', () => {
         done()
       })
     })
+
+    it('POST restaurant to the restaurants array of a specific city by id', (done) => {
+      chai.request(server)
+      .post('/api/v1/cities/1/restaurants')
+      .send({
+        name: 'Lotsa Tacos',
+        address: '123 Another Street',
+        city: 'Hogsmeade',
+        rating: 1.1,
+        avg_cost: '$100'
+      })
+      .end((error, response) => {
+        response.should.have.status(201)
+        response.should.be.json
+        response.body.should.be.a('object')
+        response.body.should.have.property('name')
+        response.body.name.should.equal('Lotsa Tacos')
+        response.body.should.have.property('address')
+        response.body.property.should.equal('123 Another Street')
+        response.body.should.have.property('city')
+        response.body.city.should.equal('Hogsmeade')
+        response.body.should.have.property('rating')
+        response.body.rating.should.equal(1.1)
+        response.body.should.have.property('avg_cost')
+        response.body.avg_cost.should.equal('$100')
+        done()
+      })
+    })
   })
 })
