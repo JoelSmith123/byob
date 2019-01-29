@@ -78,10 +78,10 @@ describe('API Routes', () => {
     }) 
   })
 
-  describe('api/v1/cities/:id', () => {
+  describe('/api/v1/cities/:id', () => {
     it('GET a city by id', () => {
       chai.request(server)
-      .get('api/v1/cities/1')
+      .get('/api/v1/cities/1')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
@@ -98,9 +98,30 @@ describe('API Routes', () => {
       })
     })
 
+    it('PUT a city by id', () => {
+      chai.request(server)
+      .put('/api/v1/cities/1')
+      .send({
+        name: 'Hogsmeade'
+      })
+      .end((error, response) => {
+        response.should.have.status(200)
+        response.should.be.json
+        response.body.should.be.a('object')
+        response.body.should.have.property('name')
+        response.body.name.should.equal('Hogsmeade')
+        response.body.should.have.property('state')
+        response.body.state.should.equal('NY')
+        response.body.should.have.property('population')
+        response.body.population.should.equal(8622698)
+        response.body.should.have.property('capital')
+        response.body.capital.should.equal(false)
+        done()      
+    })
+
     it('DELETE a city by id', () => {
       chai.request(server)
-      .delete('api/v1/cities/1')
+      .delete('/api/v1/cities/1')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
