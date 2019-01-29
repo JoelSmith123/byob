@@ -32,7 +32,7 @@ const createRestaurant = (knex, restaurant) => {
 };
 
 exports.seed = (knex, Promise) => {
-  return knex('restaurants').del()
+  return knex('restaurants').del() 
     .then(() => knex('cities').del())
     .then(() => {
       let cityPromises = [];
