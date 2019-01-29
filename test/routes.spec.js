@@ -61,5 +61,20 @@ describe('API Routes', () => {
         done()
       })
     })
+
+    it('POST sad: fail to add city', (done) => {
+      chai.request(server)
+      .post('/api/v1/cities')
+      .send({
+        name: 'London',
+        state: 'n/a'
+      })
+      .end((error, response) => {
+        response.should.have.status(422)
+        response.should.be.json
+        response.body.should.have.property('error')
+        done()
+      })
+    }) 
   })
 })
