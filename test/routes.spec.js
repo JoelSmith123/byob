@@ -20,7 +20,7 @@ describe('API Routes', () => {
   describe('/api/v1/cities', () => {
     it('GET array all cities', (done) => {
       chai.request(server)
-      .get('/api/v1.cities')
+      .get('/api/v1/cities')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
@@ -76,5 +76,26 @@ describe('API Routes', () => {
         done()
       })
     }) 
+  })
+
+  describe('api/v1/cities/:id', () => {
+    it('GET a city by id', () => {
+      chai.request(server)
+      .get('api/v1/cities/1')
+      .end((error, response) => {
+        response.should.have.status(200)
+        response.should.be.json
+        response.body.should.be.a('object')
+        response.body.should.have.property('name')
+        response.body.name.should.equal('New York City')
+        response.body.should.have.property('state')
+        response.body.state.should.equal('NY')
+        response.body.should.have.property('population')
+        response.body.population.should.equal(8622698)
+        response.body.should.have.property('capital')
+        response.body.capital.should.equal(false)
+        done()
+      })
+    })
   })
 })
