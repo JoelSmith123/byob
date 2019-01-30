@@ -67,7 +67,6 @@ app.get('/api/v1/cities/:id', (request, response) => {
 app.put('/api/v1/cities/:city_id', (request, response, next) => {
 
 
-  })
 })
 
 
