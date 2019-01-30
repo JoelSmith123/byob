@@ -13,10 +13,10 @@ app.locals.title = 'Taco Restaurants'
 
 app.get('/api/v1/cities', (request, response) => {
   database('cities').select()
-  .then((cities) => {
+  .then(cities => {
     response.status(200).json(cities);
   })
-  .catch((error) => {
+  .catch(error => {
     response.status(500).json({ error });
   });
 })
@@ -45,10 +45,10 @@ app.post('/api/v1/cities', (request, response) => {
 
 app.get('/api/v1/restaurants', (request, response) => {
   database('restaurants').select()
-  .then((restaurants) => {
+  .then(restaurants => {
     response.status(200).json(restaurants);
   })
-  .catch((error) => {
+  .catch(error => {
     response.status(500).json({ error });
   });
 })
@@ -62,10 +62,10 @@ app.get('/api/v1/cities/:id', (request, response) => {
     if (city.length !== 0) {
      response.status(200).json(city) 
     } else {
-      response.status(404).send({ error: `User with id ${id} was not found in the database`})
+      response.status(404).send({ error: `City with id ${id} was not found in the database`})
     }
   })
-  .catch((error) => {
+  .catch(error => {
     response.status(500).json({ error });
   });
 })
@@ -118,7 +118,16 @@ app.get('/api/v1/restaurants/:id', (request, response) => {
   const { id } = request.params
 
   database('restaurants').where('id', id).select()
-  .then(restaurant => response.status(200).json(restaurant))
+  .then(restaurant => {
+    if (restaurant.length !== 0) {
+     response.status(200).json(restaurant) 
+    } else {
+      response.status(404).send({ error: `Restaurant with id ${id} was not found in the database.`})
+    }
+  })
+  .catch(error => {
+    response.status(500).json({ error });
+  });
 })
 
 
@@ -150,8 +159,12 @@ app.put('/api/v1/restaurants/:id', (request, response, next) => {
 
 app.delete('/api/v1/restaurants/:id', (request, response) => {
   database('restaurants').where('id', request.params.id).del()
-  .then(restaurant => {
-     response.status(200).json({ id: restaurant[0] })
+  .then(restaurantId => {
+    if (restaurantId) {
+      response.status(200).json({ id: request.params.id })
+    } else {
+      response.status(404).send('No restaurant with that ID currently exists')
+    }
   })
   .catch(error => {
     response.status(500).json({ error })
@@ -162,17 +175,28 @@ app.delete('/api/v1/restaurants/:id', (request, response) => {
 app.get('/api/v1/cities/:id/restaurants', (request, response) => {
   database('restaurants').where('city_id', request.params.id).select()
   .then((restaurants) => {
-    response.status(200).json(restaurants);
+    if (restaurants.length) {
+      response.status(200).json(restaurants);
+    } else {
+      response.status(404).send('There are no restaurants listed for that city.');
+    }
   })
-  .catch((error) => {
+  .catch(error => {
     response.status(500).json({ error });
   });
 })
 
-
 app.post('/api/v1/cities/:id/restaurants', (request, response) => {
   const restaurant = request.body
   const { id } = request.params
+
+  for (let requiredParameter of ['name', 'city', 'address', 'rating', 'avg_cost']) {
+    if (!restaurant[requiredParameter]) {
+      return response.status(422)
+        .send({ error: `Expected format: { name: <String>, city: <String>, address: <String>, 
+                        rating: <String>, avg_cost: <String> }. You're missing a "${requiredParameter}" property.` });
+    }
+  }
 
   database('restaurants').insert(restaurant, 'id')
   .then(restaurant => {
