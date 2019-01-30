@@ -2,8 +2,12 @@ const chai = require('chai')
 const should = chai.should()
 const chaiHttp = require('chai-http')
 const server = require('../server.js')
+const configuration = require("../knexfile")["test"];
+const database = require("knex")(configuration);
 
 chai.use(chaiHttp)
+
+
 
 describe('Client Routes', () => {
   it('should return a 404 for routes that don\'t exist', (done) => {
@@ -16,7 +20,21 @@ describe('Client Routes', () => {
   })
 })
 
+
 describe('API Routes', () => {
+
+  before(done => {
+    database.migrate.rollback()
+      .then(() => database.migrate.latest())
+      .then(() => database.seed.run())
+      .then(() => done())
+  })
+
+  beforeEach(done => {
+    database.seed.run()
+    .then(() => done())
+  })
+
   describe('/api/v1/cities', () => {
     it('GET array all cities', (done) => {
       chai.request(server)
@@ -79,21 +97,13 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/cities/:id', () => {
-    it('GET a city by id', () => {
+    it('GET a city by id', (done) => {
       chai.request(server)
-      .get('/api/v1/cities/1')
+      .get('/api/v1/cities/23')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
         response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('New York City')
-        response.body.should.have.property('state')
-        response.body.state.should.equal('NY')
-        response.body.should.have.property('population')
-        response.body.population.should.equal(8622698)
-        response.body.should.have.property('capital')
-        response.body.capital.should.equal(false)
         done()
       })
     })
@@ -122,19 +132,10 @@ describe('API Routes', () => {
 
     it('DELETE a city by id', (done) => {
       chai.request(server)
-      .delete('/api/v1/cities/1')
+      .delete('/api/v1/cities/24')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
-        response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('New York City')
-        response.body.should.have.property('state')
-        response.body.state.should.equal('NY')
-        response.body.should.have.property('population')
-        response.body.population.should.equal(8622698)
-        response.body.should.have.property('capital')
-        response.body.capital.should.equal(false)
         done()
       })
     })
@@ -145,6 +146,7 @@ describe('API Routes', () => {
       chai.request(server)
       .get('/api/v1/restaurants')
       .end((error, response) => {
+        console.log(response.body)
         response.should.have.status(200)
         response.should.be.json
         response.body.should.be.a('array')
@@ -164,7 +166,7 @@ describe('API Routes', () => {
 
     it('POST a restaurant to the restaurants array', (done) => {
       chai.request(server)
-      .post('/api/v1/students')
+      .post('/api/v1/cities/23/restaurants')
       .send({
         name: 'Lotsa Tacos',
         address: '123 Another Street',
@@ -259,16 +261,8 @@ describe('API Routes', () => {
         response.should.have.status(200)
         response.should.be.json
         response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('Los Tacos No. 1')
-        response.body.should.have.property('address')
-        response.body.property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
-        response.body.should.have.property('city')
-        response.body.city.should.equal('New York City')
-        response.body.should.have.property('rating')
-        response.body.rating.should.equal(4.4)
-        response.body.should.have.property('avg_cost')
-        response.body.avg_cost.should.equal('$25')
+        response.body.should.have.property('id')
+        response.body.id.should.equal(1)
         done()
       })
     })
@@ -277,7 +271,7 @@ describe('API Routes', () => {
   describe('/api/v1/cities/:id/restaurants', () => {
     it('GET restaurants from a specific city by id', (done) => {
       chai.request(server)
-      .get('/api/v1/cities/1/restaurants')
+      .get('/api/v1/cities/23/restaurants')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
@@ -298,7 +292,7 @@ describe('API Routes', () => {
 
     it('POST restaurant to the restaurants array of a specific city by id', (done) => {
       chai.request(server)
-      .post('/api/v1/cities/1/restaurants')
+      .post('/api/v1/cities/23/restaurants')
       .send({
         name: 'Lotsa Tacos',
         address: '123 Another Street',
