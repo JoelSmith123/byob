@@ -11,7 +11,6 @@ app.set('port', process.env.PORT || 3000)
 app.locals.title = 'Taco Restaurants'
 
 
-
 app.get('/api/v1/cities', (request, response) => {
   database('cities').select()
   .then((cities) => {
@@ -21,6 +20,7 @@ app.get('/api/v1/cities', (request, response) => {
     response.status(500).json({ error });
   });
 })
+
 
 app.post('/api/v1/cities', (request, response) => {
   const city = request.body
@@ -43,7 +43,6 @@ app.post('/api/v1/cities', (request, response) => {
 })
 
 
-
 app.get('/api/v1/restaurants', (request, response) => {
   database('restaurants').select()
   .then((restaurants) => {
@@ -55,18 +54,45 @@ app.get('/api/v1/restaurants', (request, response) => {
 })
 
 
-
 app.get('/api/v1/cities/:id', (request, response) => {
   const { id } = request.params
 
   database('cities').where('id', id).select()
-  .then(city => response.status(200).json({city}))
+  .then(city => {
+    if (city.length !== 0) {
+     response.status(200).json(city) 
+    } else {
+      response.status(404).send({ error: `User with id ${id} was not found in the database`})
+    }
+  })
+  .catch((error) => {
+    response.status(500).json({ error });
+  });
 })
 
 
-app.put('/api/v1/cities/:city_id', (request, response, next) => {
+app.put('/api/v1/cities/:id', (request, response) => {
+  const { id } = request.params
+  const city = request.body
 
-
+  database('cities')
+  .where('id', id)
+  .update({
+    name: city.name, 
+    population: city.population, 
+    state: city.state, 
+    capital: city.capital
+  })
+  .then(city => {
+    if (city === 1) {
+      response.status(202).send(`City with id ${id} was successfully updated.`)
+    } else {
+      response.status(404).send(`A city with id ${id} could not be found.`)
+    }
+  })
+  .catch(error => {
+    response.status(422).json({error})
+  })
 })
 
 
@@ -75,13 +101,17 @@ app.delete('/api/v1/cities/:id', (request, response) => {
   .then(() => { 
     database('cities').where('id', request.params.id).del()
   })
-  .then(city => response.status(200).json(request.params.id))
+  .then(cityId => {
+    if (cityId) {
+      response.status(200).json({ id: request.params.id })
+    } else {
+      response.status(404).send('No city with that ID currently exists')
+    }
+  })
   .catch(error => {
     response.status(500).json({ error })
   })
 })
-
-
 
 
 app.get('/api/v1/restaurants/:id', (request, response) => {
@@ -92,11 +122,30 @@ app.get('/api/v1/restaurants/:id', (request, response) => {
 })
 
 
-
 app.put('/api/v1/restaurants/:id', (request, response, next) => {
+  const { id } = request.params
+  const restaurant = request.body
 
+  database('restaurants')
+  .where('id', id)
+  .update({
+    name: restaurant.name, 
+    address: restaurant.address, 
+    city: restaurant.city, 
+    rating: restaurant.rating, 
+    avg_cost: restaurant.avg_cost 
+  })
+  .then(restaurant => {
+    if (restaurant === 1) {
+      response.status(202).send(`Restaurant with id ${id} was successfully updated.`)
+    } else {
+      response.status(404).send(`A restaurant with id ${id} could not be found.`)
+    }
+  })
+  .catch(error => {
+    response.status(422).json({error})
+  })
 })
-
 
 
 app.delete('/api/v1/restaurants/:id', (request, response) => {
@@ -108,7 +157,6 @@ app.delete('/api/v1/restaurants/:id', (request, response) => {
     response.status(500).json({ error })
   })
 })
-
 
 
 app.get('/api/v1/cities/:id/restaurants', (request, response) => {
