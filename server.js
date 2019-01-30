@@ -25,7 +25,7 @@ app.get('/api/v1/cities', (request, response) => {
 app.post('/api/v1/cities', (request, response) => {
   const project = request.body
 
-  for (let requiredParameter of ['name, state, population, restaurants']) {
+  for (let requiredParameter of ['name', 'state', 'population']) {
     if (!project[requiredParameter]) {
       return response.status(422)
         .send({ error: `Expected format: { name: <String>, state: <String>, population: <String>, 
@@ -35,7 +35,7 @@ app.post('/api/v1/cities', (request, response) => {
 
   database('cities').insert(city, 'id')
   .then(city => {
-    response.status(201).json({ id: city[0] })
+    response.status(201).json({ city })
   })
   .catch(error => {
     response.status(500).json({ error })
