@@ -23,10 +23,10 @@ app.get('/api/v1/cities', (request, response) => {
 })
 
 app.post('/api/v1/cities', (request, response) => {
-  const project = request.body
+  const city = request.body
 
   for (let requiredParameter of ['name', 'state', 'population']) {
-    if (!project[requiredParameter]) {
+    if (!city[requiredParameter]) {
       return response.status(422)
         .send({ error: `Expected format: { name: <String>, state: <String>, population: <String>, 
                         capital: <Boolean> }. You're missing a "${requiredParameter}" property.` });
@@ -35,7 +35,7 @@ app.post('/api/v1/cities', (request, response) => {
 
   database('cities').insert(city, 'id')
   .then(city => {
-    response.status(201).json({ city })
+    response.status(201).json({ ...request.body, id: city[0] })
   })
   .catch(error => {
     response.status(500).json({ error })
@@ -60,7 +60,7 @@ app.get('/api/v1/cities/:id', (request, response) => {
   const { id } = request.params
 
   database('cities').where('id', id).select()
-  .then(city => response.status(200).json(city))
+  .then(city => response.status(200).json({city}))
 })
 
 
