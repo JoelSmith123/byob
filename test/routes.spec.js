@@ -23,17 +23,24 @@ describe('Client Routes', () => {
 
 describe('API Routes', () => {
 
-  before(done => {
-    database.migrate.rollback()
-      .then(() => database.migrate.latest())
-      .then(() => database.seed.run())
+  before((done) => {
+    database.migrate.latest()
       .then(() => done())
-  })
+      .catch(error => {
+        throw error;
+      })
+      .done();
 
-  beforeEach(done => {
+  });
+
+  beforeEach((done) => {
     database.seed.run()
-    .then(() => done())
-  })
+      .then(() => done())
+      .catch(error => {
+        throw error;
+      })
+      .done();
+  });
 
   describe('/api/v1/cities', () => {
     it('GET array all cities', (done) => {
@@ -146,7 +153,6 @@ describe('API Routes', () => {
       chai.request(server)
       .get('/api/v1/restaurants')
       .end((error, response) => {
-        console.log(response.body)
         response.should.have.status(200)
         response.should.be.json
         response.body.should.be.a('array')
