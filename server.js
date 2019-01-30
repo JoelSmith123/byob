@@ -64,14 +64,22 @@ app.get('/api/v1/cities/:id', (request, response) => {
 })
 
 
-app.put('/api/v1/cities/:city_id', (request, response) => {
+app.put('/api/v1/cities/:city_id', (request, response, next) => {
 
+
+  })
 })
 
 
 app.delete('/api/v1/cities/:id', (request, response) => {
   database('restaurants').where('city_id', request.params.id).del()
-  database('cities').where('id', request.params.id).del()
+  .then(() => { 
+    database('cities').where('id', request.params.id).del()
+  })
+  .then(city => response.status(200).json(city))
+  .catch(error => {
+    response.status(500).json({ error })
+  })
 })
 
 
@@ -85,14 +93,14 @@ app.get('/api/v1/restaurants/:id', (request, response) => {
 
 
 
-app.put('/api/v1/restaurants/:id', (request, response) => {
+app.put('/api/v1/restaurants/:id', (request, response, next) => {
 
 })
 
 
 
 app.delete('/api/v1/restaurants/:id', (request, response) => {
-  database('restaurants').where('id', request.params.id).delete()
+  database('restaurants').where('id', request.params.id).del()
   .then(restaurant => {
      response.status(201).json({ id: restaurant[0] })
   })
