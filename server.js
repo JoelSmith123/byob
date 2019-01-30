@@ -105,7 +105,7 @@ app.delete('/api/v1/cities/:id', (request, response) => {
     if (cityId) {
       response.status(200).json({ id: request.params.id })
     } else {
-      response.status(404).send('No city with that ID currently exists')
+      response.status(404).send({ error: 'No city with that ID currently exists' })
     }
   })
   .catch(error => {
