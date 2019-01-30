@@ -75,11 +75,12 @@ app.delete('/api/v1/cities/:id', (request, response) => {
   .then(() => { 
     database('cities').where('id', request.params.id).del()
   })
-  .then(city => response.status(200).json(city))
+  .then(city => response.status(200).json(request.params.id))
   .catch(error => {
     response.status(500).json({ error })
   })
 })
+
 
 
 
@@ -101,7 +102,7 @@ app.put('/api/v1/restaurants/:id', (request, response, next) => {
 app.delete('/api/v1/restaurants/:id', (request, response) => {
   database('restaurants').where('id', request.params.id).del()
   .then(restaurant => {
-     response.status(201).json({ id: restaurant[0] })
+     response.status(200).json({ id: restaurant[0] })
   })
   .catch(error => {
     response.status(500).json({ error })
