@@ -117,6 +117,7 @@ describe('API Routes', () => {
         response.body.should.have.property('capital')
         response.body.capital.should.equal(false)
         done()      
+      })
     })
 
     it('DELETE a city by id', (done) => {
