@@ -8,7 +8,7 @@ exports.up = function(knex, Promise) {
       table.integer('population')
       table.boolean('capital')
 
-      table.timeStamps(true, true)
+      table.timestamps(true, true)
     }),
 
     knex.schema.createTable('restaurants', (table) => {
@@ -22,7 +22,7 @@ exports.up = function(knex, Promise) {
       table.foreign('city_id')
         .references('cities.id')
 
-      table.timeStamps(true, true)
+      table.timestamps(true, true)
     }) 
   ])
 };

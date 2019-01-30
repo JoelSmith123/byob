@@ -588,7 +588,7 @@ const cityData = [
       {name: "Taco Bell", address: "5925 Independence Avenue 64125", city: "Kansas City, Missouri", rating: 0, avg_cost: "$10"},
       {name: "Taco John's", address: "811 NW Woods Chapel Road 64015", city: "Kansas City, Missouri", rating: 3.4, avg_cost: "$10"}
     ]
-  },
+  }
 ]
 
 module.exports = cityData
