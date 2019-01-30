@@ -5,6 +5,7 @@ const createCity = (knex, city) => {
   return knex('cities').insert({
     name: city.name,
     state: city.state,
+    population: city.population,
     capital: city.capital,
   }, 'id')
   .then(cityId => {
