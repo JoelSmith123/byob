@@ -16,7 +16,7 @@ const createCity = (knex, city) => {
           name: restaurant.name,
           address: restaurant.address,
           city: restaurant.city,
-          rating: restaurant.rating,
+          rating: parseInt(restaurant.rating),
           avg_cost: restaurant.avg_cost,
           city_id: cityId[0]
         })
