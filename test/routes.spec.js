@@ -23,26 +23,32 @@ describe('Client Routes', () => {
 
 describe('API Routes', () => {
 
-  before((done) => {
+  before(done => {
     database.migrate.latest()
-      .then(() => done())
-      .catch(error => {
-        throw error;
-      })
-      .done();
-
-  });
-
-  beforeEach((done) => {
-    database.seed.run()
-      .then(() => done())
-      .catch(error => {
-        throw error;
-      })
-      .done();
-  });
+     .then(() => done())
+  })
+  
+  beforeEach(done => {
+   database.migrate.rollback()
+     .then(() => database.migrate.latest())
+     .then(() => database.seed.run())
+     .then(() => done())
+  })
 
   describe('/api/v1/cities', () => {
+
+    before(done => {
+      database.migrate.latest()
+       .then(() => done())
+    })
+
+    beforeEach(done => {
+     database.migrate.rollback()
+       .then(() => database.migrate.latest())
+       .then(() => database.seed.run())
+       .then(() => done())
+    })
+
     it('GET array all cities', (done) => {
       chai.request(server)
       .get('/api/v1/cities')
@@ -104,6 +110,19 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/cities/:id', () => {
+
+    before(done => {
+      database.migrate.latest()
+       .then(() => done())
+    })
+
+    beforeEach(done => {
+     database.migrate.rollback()
+       .then(() => database.migrate.latest())
+       .then(() => database.seed.run())
+       .then(() => done())
+    })
+
     it('GET a city by id', (done) => {
       chai.request(server)
       .get('/api/v1/cities/23')
@@ -149,6 +168,19 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/restaurants', () => {
+
+    before(done => {
+      database.migrate.latest()
+       .then(() => done())
+    })
+
+    beforeEach(done => {
+     database.migrate.rollback()
+       .then(() => database.migrate.latest())
+       .then(() => database.seed.run())
+       .then(() => done())
+    })
+
     it('GET array all restaurants', (done) => {
       chai.request(server)
       .get('/api/v1/restaurants')
@@ -159,11 +191,11 @@ describe('API Routes', () => {
         response.body[0].should.have.property('name')
         response.body[0].name.should.equal('Los Tacos No. 1')
         response.body[0].should.have.property('address')
-        response.body[0].property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
+        response.body[0].address.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
         response.body[0].should.have.property('city')
         response.body[0].city.should.equal('New York City')
         response.body[0].should.have.property('rating')
-        response.body[0].rating.should.equal(4.4)
+        response.body[0].rating.should.equal(4)
         response.body[0].should.have.property('avg_cost')
         response.body[0].avg_cost.should.equal('$25')
         done()
@@ -215,6 +247,19 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/restaurants/:id', () => {
+
+    before(done => {
+      database.migrate.latest()
+       .then(() => done())
+    })
+
+    beforeEach(done => {
+     database.migrate.rollback()
+       .then(() => database.migrate.latest())
+       .then(() => database.seed.run())
+       .then(() => done())
+    })
+
     it('GET a restaurant by id', (done) => {
       chai.request(server)
       .get('/api/v1/restaurants/1')
@@ -275,6 +320,19 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/cities/:id/restaurants', () => {
+
+    before(done => {
+      database.migrate.latest()
+       .then(() => done())
+    })
+
+    beforeEach(done => {
+     database.migrate.rollback()
+       .then(() => database.migrate.latest())
+       .then(() => database.seed.run())
+       .then(() => done())
+    })
+
     it('GET restaurants from a specific city by id', (done) => {
       chai.request(server)
       .get('/api/v1/cities/23/restaurants')
