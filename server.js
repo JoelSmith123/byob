@@ -25,11 +25,11 @@ app.get('/api/v1/cities', (request, response) => {
 app.post('/api/v1/cities', (request, response) => {
   const project = request.body
 
-  for (let requiredParameter of ['name, state, population, restaurants'] && typeof request.body.capital !== 'undefined') {
+  for (let requiredParameter of ['name, state, population, restaurants']) {
     if (!project[requiredParameter]) {
       return response.status(422)
-        .send({ error: `Expected format: { name: <String>, state: <String>, population: <String>, capital: <Boolean>, 
-                restaurants: <Array> }. You're missing a "${requiredParameter}" property.` });
+        .send({ error: `Expected format: { name: <String>, state: <String>, population: <String>, 
+                        capital: <Boolean> }. You're missing a "${requiredParameter}" property.` });
     }
   }
 
