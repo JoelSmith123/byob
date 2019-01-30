@@ -141,17 +141,11 @@ describe('API Routes', () => {
         name: 'Hogsmeade'
       })
       .end((error, response) => {
-        response.should.have.status(200)
+        response.should.have.status(202)
         response.should.be.json
         response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('Hogsmeade')
-        response.body.should.have.property('state')
-        response.body.state.should.equal('NY')
-        response.body.should.have.property('population')
-        response.body.population.should.equal(8622698)
-        response.body.should.have.property('capital')
-        response.body.capital.should.equal(false)
+        response.body.should.have.property('statusText')
+        response.body.statusText.should.equal('City with id "1" was successfully updated.')
         done()      
       })
     })

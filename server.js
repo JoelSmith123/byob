@@ -85,9 +85,9 @@ app.put('/api/v1/cities/:id', (request, response) => {
   })
   .then(city => {
     if (city === 1) {
-      response.status(202).send(`City with id ${id} was successfully updated.`)
+      response.status(202).send({ statusText: `City with id "${id}" was successfully updated.` })
     } else {
-      response.status(404).send(`A city with id ${id} could not be found.`)
+      response.status(404).send({ error: `A city with id "${id}" could not be found.` })
     }
   })
   .catch(error => {
