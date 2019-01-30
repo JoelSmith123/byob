@@ -31,6 +31,7 @@ app.post('/api/v1/cities', (request, response) => {
         .send({ error: `Expected format: { name: <String>, state: <String>, population: <String>, capital: <Boolean>, 
                 restaurants: <Array> }. You're missing a "${requiredParameter}" property.` });
     }
+  }
 
   database('cities').insert(city, 'id')
   .then(city => {
@@ -55,10 +56,10 @@ app.get('/api/v1/restaurants', (request, response) => {
 
 
 
-app.get('/api/v1/cities/:city_id', (request, response) => {
-  const { city_id } = request.params
+app.get('/api/v1/cities/:id', (request, response) => {
+  const { id } = request.params
 
-  database('cities').where('id', city_id).select()
+  database('cities').where('id', id).select()
   .then(city => response.status(200).json(city))
 })
 
@@ -68,8 +69,9 @@ app.put('/api/v1/cities/:city_id', (request, response) => {
 })
 
 
-app.delete('/api/v1/cities/:city_id', (request, response) => {
- 
+app.delete('/api/v1/cities/:id', (request, response) => {
+  database('restaurants').where('city_id', request.params.id).del()
+  database('cities').where('id', request.params.id).del()
 })
 
 
@@ -101,9 +103,8 @@ app.delete('/api/v1/restaurants/:id', (request, response) => {
 
 
 
-
-app.get('/api/v1/cities/:city_id/restaurants', (request, response) => {
-  database('restaurants').where('city_id', request.params.city_id).select()
+app.get('/api/v1/cities/:id/restaurants', (request, response) => {
+  database('restaurants').where('city_id', request.params.id).select()
   .then((restaurants) => {
     response.status(200).json(restaurants);
   })
@@ -113,13 +114,13 @@ app.get('/api/v1/cities/:city_id/restaurants', (request, response) => {
 })
 
 
-app.post('/api/v1/cities/:city_id/restaurants', (request, response) => {
+app.post('/api/v1/cities/:id/restaurants', (request, response) => {
   const restaurant = request.body
-  const { city_id } = request.params
+  const { id } = request.params
 
   database('restaurants').insert(restaurant, 'id')
   .then(restaurant => {
-    response.status(201).json({ ...request.body, id: restaurant[0], city_id })
+    response.status(201).json({ ...request.body, id: restaurant[0], city_id: id })
   })
   .catch(error => {
     response.status(500).json({ error })
@@ -127,4 +128,8 @@ app.post('/api/v1/cities/:city_id/restaurants', (request, response) => {
 })
 
 
+app.listen(app.get('port'), () => {
+  console.log(`${app.locals.title} is running on localhost:${app.get('port')}.`);
+});
 
+module.exports = app
