@@ -5,6 +5,7 @@ const createCity = (knex, city) => {
   return knex('cities').insert({
     name: city.name,
     state: city.state,
+    population: city.population,
     capital: city.capital,
   }, 'id')
   .then(cityId => {
@@ -16,7 +17,7 @@ const createCity = (knex, city) => {
           name: restaurant.name,
           address: restaurant.address,
           city: restaurant.city,
-          rating: restaurant.rating,
+          rating: parseInt(restaurant.rating),
           avg_cost: restaurant.avg_cost,
           city_id: cityId[0]
         })
