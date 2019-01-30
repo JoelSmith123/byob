@@ -125,7 +125,7 @@ describe('API Routes', () => {
 
     it('GET a city by id', (done) => {
       chai.request(server)
-      .get('/api/v1/cities/23')
+      .get('/api/v1/cities/2')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json

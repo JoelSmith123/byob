@@ -60,7 +60,7 @@ app.get('/api/v1/cities/:id', (request, response) => {
   database('cities').where('id', id).select()
   .then(city => {
     if (city.length !== 0) {
-     response.status(200).json(city) 
+     response.status(200).json({ city }) 
     } else {
       response.status(404).send({ error: `City with id ${id} was not found in the database`})
     }
