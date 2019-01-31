@@ -45,13 +45,25 @@ app.post('/api/v1/cities', (request, response) => {
 
 
 app.get('/api/v1/restaurants', (request, response) => {
-  database('restaurants').select()
-  .then(restaurants => {
-    response.status(200).json(restaurants)
-  })
-  .catch(error => {
+  const { query, originalUrl } = request
+  if (query.rating) {
+    database('restaurants').where('rating', query.rating).select()
+    .then(restaurants => {
+      response.status(200).json(restaurants)
+    })
+    .catch(error => {
     response.status(500).json({ error })
   })
+  } else {
+    database('restaurants').select()
+    .then(restaurants => {
+      response.status(200).json(restaurants)
+    })
+    .catch(error => {
+    response.status(500).json({ error })
+  })
+  }
+  
 })
 
 
