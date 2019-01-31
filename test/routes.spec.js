@@ -150,7 +150,7 @@ describe('API Routes', () => {
       })
     })
 
-    it.skip('DELETE a city by id', (done) => {
+    it('DELETE a city by id', (done) => {
       chai.request(server)
       .delete('/api/v1/cities/1')
       .end((error, response) => {
@@ -195,49 +195,6 @@ describe('API Routes', () => {
         done()
       })
     })
-
-    it('POST a restaurant to the restaurants array', (done) => {
-      chai.request(server)
-      .post('/api/v1/cities/23/restaurants')
-      .send({
-        name: 'Lotsa Tacos',
-        address: '123 Another Street',
-        city: 'Hogsmeade',
-        rating: 1.1,
-        avg_cost: '$100'
-      })
-      .end((error, response) => {
-        response.should.have.status(201)
-        response.should.be.json
-        response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('Lotsa Tacos')
-        response.body.should.have.property('address')
-        response.body.property.should.equal('123 Another Street')
-        response.body.should.have.property('city')
-        response.body.city.should.equal('Hogsmeade')
-        response.body.should.have.property('rating')
-        response.body.rating.should.equal(1.1)
-        response.body.should.have.property('avg_cost')
-        response.body.avg_cost.should.equal('$100')
-        done()
-      })
-    })
-
-    it('POST sad: fail to add restaurant to the restaurants array', (done) => {
-      chai.request(server)
-      .post('/api/v1/students')
-      .send({
-        name: 'All The Tacos',
-        address: '345 Yet Another Street'
-      })
-      .end((error, response) => {
-        response.should.have.status(422)
-        response.should.be.json
-        response.body.should.have.property('error')
-        done()
-      })
-    })
   })
 
   describe('/api/v1/restaurants/:id', () => {
@@ -260,17 +217,17 @@ describe('API Routes', () => {
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
-        response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('Los Tacos No. 1')
-        response.body.should.have.property('address')
-        response.body.address.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
-        response.body.should.have.property('city')
-        response.body.city.should.equal('New York City')
-        response.body.should.have.property('rating')
-        response.body.rating.should.equal(4)
-        response.body.should.have.property('avg_cost')
-        response.body.avg_cost.should.equal('$25')
+        response.body.should.be.a('array')
+        response.body[0].should.have.property('name')
+        response.body[0].name.should.equal('Los Tacos No. 1')
+        response.body[0].should.have.property('address')
+        response.body[0].address.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
+        response.body[0].should.have.property('city')
+        response.body[0].city.should.equal('New York City')
+        response.body[0].should.have.property('rating')
+        response.body[0].rating.should.equal(4)
+        response.body[0].should.have.property('avg_cost')
+        response.body[0].avg_cost.should.equal('$25')
         done()
       })
     })
@@ -282,19 +239,11 @@ describe('API Routes', () => {
         name: 'All The Tacos'
       })
       .end((error, response) => {
-        response.should.have.status(200)
+        response.should.have.status(202)
         response.should.be.json
         response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('All The Tacos')
-        response.body.should.have.property('address')
-        response.body.property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
-        response.body.should.have.property('city')
-        response.body.city.should.equal('New York City')
-        response.body.should.have.property('rating')
-        response.body.rating.should.equal(4.4)
-        response.body.should.have.property('avg_cost')
-        response.body.avg_cost.should.equal('$25')
+        response.body.should.have.property('sendStatus')
+        response.body.sendStatus.should.equal('Restaurant with id 1 was successfully updated.')
         done()
       })
     })
@@ -307,7 +256,7 @@ describe('API Routes', () => {
         response.should.be.json
         response.body.should.be.a('object')
         response.body.should.have.property('id')
-        response.body.id.should.equal(1)
+        response.body.id.should.equal('1')
         done()
       })
     })
@@ -329,7 +278,7 @@ describe('API Routes', () => {
 
     it('GET restaurants from a specific city by id', (done) => {
       chai.request(server)
-      .get('/api/v1/cities/23/restaurants')
+      .get('/api/v1/cities/1/restaurants')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
@@ -337,11 +286,11 @@ describe('API Routes', () => {
         response.body[0].should.have.property('name')
         response.body[0].name.should.equal('Los Tacos No. 1')
         response.body[0].should.have.property('address')
-        response.body[0].property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
+        response.body[0].address.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
         response.body[0].should.have.property('city')
         response.body[0].city.should.equal('New York City')
         response.body[0].should.have.property('rating')
-        response.body[0].rating.should.equal(4.4)
+        response.body[0].rating.should.equal(4)
         response.body[0].should.have.property('avg_cost')
         response.body[0].avg_cost.should.equal('$25')
         done()
@@ -350,7 +299,7 @@ describe('API Routes', () => {
 
     it('POST restaurant to the restaurants array of a specific city by id', (done) => {
       chai.request(server)
-      .post('/api/v1/cities/23/restaurants')
+      .post('/api/v1/cities/1/restaurants')
       .send({
         name: 'Lotsa Tacos',
         address: '123 Another Street',
@@ -365,7 +314,7 @@ describe('API Routes', () => {
         response.body.should.have.property('name')
         response.body.name.should.equal('Lotsa Tacos')
         response.body.should.have.property('address')
-        response.body.property.should.equal('123 Another Street')
+        response.body.address.should.equal('123 Another Street')
         response.body.should.have.property('city')
         response.body.city.should.equal('Hogsmeade')
         response.body.should.have.property('rating')
