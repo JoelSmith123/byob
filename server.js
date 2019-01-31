@@ -46,6 +46,7 @@ app.post('/api/v1/cities', (request, response) => {
 
 app.get('/api/v1/restaurants', (request, response) => {
   const rating = request.query.rating
+  
   if (rating) {
     database('restaurants').where('rating', rating).select()
     .then(restaurants => {

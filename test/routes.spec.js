@@ -223,6 +223,21 @@ describe('API Routes', () => {
         done()
       })
     })
+
+    it('GET array all restaurants with a 4 rating', (done) => {
+      chai.request(server)
+      .get('/api/v1/restaurants?rating=4')
+      .end((error, response) => {
+        response.should.have.status(200)
+        response.should.be.json
+        response.body.should.be.a('array')
+        response.body[0].should.have.property('rating')
+        response.body[0].rating.should.equal(4)
+        response.body[1].rating.should.equal(4)
+        response.body[2].rating.should.equal(4)
+        done()
+      })
+    })
   })
 
   describe('/api/v1/restaurants/:id', () => {
