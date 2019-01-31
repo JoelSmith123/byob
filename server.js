@@ -210,6 +210,7 @@ app.get('/api/v1/cities/:id/restaurants', (request, response) => {
 app.post('/api/v1/cities/:id/restaurants', (request, response) => {
   const restaurant = request.body
   const { id } = request.params
+  const fullRestaurant = {...restaurant, city_id: id}
 
   for (let requiredParameter of ['name', 'city', 'address', 'rating', 'avg_cost']) {
     if (!restaurant[requiredParameter]) {
@@ -220,9 +221,9 @@ app.post('/api/v1/cities/:id/restaurants', (request, response) => {
     }
   }
 
-  database('restaurants').insert({ ...restaurant, city_id: id }, 'id')
+  database('restaurants').insert(fullRestaurant, 'id')
   .then(restaurant => {
-    response.status(201).json({ ...request.body, id: restaurant[0], city_id: id })
+    response.status(201).json({ ...fullRestaurant, id: restaurant[0] })
   })
   .catch(error => {
     response.status(500).json({ error })
