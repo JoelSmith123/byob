@@ -79,8 +79,8 @@ POST /api/v1/cities/:id/restaurants // create a new taco restaurant in a specifi
     - Include a commit message that describes your work in detail
 
 ## Project Requirements
-[Project spec](http://frontend.turing.io/projects/build-your-own-backend.html)
-[Backend Checklist](http://frontend.turing.io/projects/byob/backend-feature-checklist.html)
+ * [Project spec](http://frontend.turing.io/projects/build-your-own-backend.html)
+ * [Backend Checklist](http://frontend.turing.io/projects/byob/backend-feature-checklist.html)
 
 ## Contributors
  * Kylie Stanley [GitHub](https://github.com/kyliestanley) [LinkedIn](https://www.linkedin.com/in/kyliestanley/)
