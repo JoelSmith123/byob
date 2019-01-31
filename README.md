@@ -11,6 +11,8 @@ This database serves up taco restaurants for every major city in the United Stat
 - Chai 
 - Chai-http
 
+## Installation and Contribution Instructions
+
 #### Install and Start Server
 * Clone this repo.
 
@@ -60,7 +62,7 @@ GET /api/v1/cities/:id/restaurants // get all taco restaurants in a specific cit
 POST /api/v1/cities/:id/restaurants // create a new taco restaurant in a specific city
 ```
 
-# To Contribute to the Project:
+## To Contribute to the Project:
 
 - Follow the installation instructions above to install and start the server on your machine.
 
@@ -80,6 +82,6 @@ POST /api/v1/cities/:id/restaurants // create a new taco restaurant in a specifi
 [Project spec](http://frontend.turing.io/projects/build-your-own-backend.html)
 [Backend Checklist](http://frontend.turing.io/projects/byob/backend-feature-checklist.html)
 
-### Contributors
+## Contributors
  * Kylie Stanley [GitHub](https://github.com/kyliestanley) [LinkedIn](https://www.linkedin.com/in/kyliestanley/)
  * Joel Smith [GitHub](https://github.com/JoelSmith123) [Twitter](https://twitter.com/j0elsmith123) [LinkedIn](https://www.linkedin.com/in/joelsmith123/) 
