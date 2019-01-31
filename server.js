@@ -88,9 +88,11 @@ app.put('/api/v1/cities/:id', (request, response) => {
   })
   .then(city => {
     if (city === 1) {
-      response.status(202).send({ statusText: `City with id "${id}" was successfully updated.` })
+      response.status(202).send({ 
+        statusText: `City with id ${id} was successfully updated.`
+      })
     } else {
-      response.status(404).send({ error: `A city with id "${id}" could not be found.` })
+      response.status(404).send({ error: `A city with id ${id} could not be found.` })
     }
   })
   .catch(error => {
@@ -104,11 +106,10 @@ app.delete('/api/v1/cities/:id', (request, response) => {
   .then(() => { 
     database('cities').where('id', request.params.id).del()
     .then((cityId) => {
-      console.log(cityId)
       if (cityId) {
         response.status(200).json({ id: request.params.id })
       } else {
-        response.status(404).send('No city with that ID currently exists')
+        response.status(404).send('No city with that ID currently exists.')
       }
     })
   })
@@ -152,7 +153,9 @@ app.put('/api/v1/restaurants/:id', (request, response) => {
   })
   .then(restaurant => {
     if (restaurant === 1) {
-      response.status(202).send(`Restaurant with id ${id} was updated.`)
+      response.status(202).send({ 
+        sendStatus: `Restaurant with id ${id} was successfully updated.` 
+      })
     } else {
       response.status(404).send(`Restaurant with id ${id} could not be found.`)
     }
@@ -205,7 +208,7 @@ app.post('/api/v1/cities/:id/restaurants', (request, response) => {
     }
   }
 
-  database('restaurants').insert({...restaurant, city_id: id}, 'id')
+  database('restaurants').insert({ ...restaurant, city_id: id }, 'id')
   .then(restaurant => {
     response.status(201).json({ ...request.body, id: restaurant[0], city_id: id })
   })
