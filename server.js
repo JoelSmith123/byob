@@ -45,9 +45,9 @@ app.post('/api/v1/cities', (request, response) => {
 
 
 app.get('/api/v1/restaurants', (request, response) => {
-  const { query, originalUrl } = request
-  if (query.rating) {
-    database('restaurants').where('rating', query.rating).select()
+  const rating = request.query.rating
+  if (rating) {
+    database('restaurants').where('rating', rating).select()
     .then(restaurants => {
       response.status(200).json(restaurants)
     })
