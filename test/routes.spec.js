@@ -24,18 +24,31 @@ describe('Client Routes', () => {
 describe('API Routes', () => {
 
   before(done => {
-    database.migrate.rollback()
-      .then(() => database.migrate.latest())
-      .then(() => database.seed.run())
-      .then(() => done())
+    database.migrate.latest()
+     .then(() => done())
   })
-
+  
   beforeEach(done => {
-    database.seed.run()
-    .then(() => done())
+   database.migrate.rollback()
+     .then(() => database.migrate.latest())
+     .then(() => database.seed.run())
+     .then(() => done())
   })
 
   describe('/api/v1/cities', () => {
+
+    before(done => {
+      database.migrate.latest()
+       .then(() => done())
+    })
+
+    beforeEach(done => {
+     database.migrate.rollback()
+       .then(() => database.migrate.latest())
+       .then(() => database.seed.run())
+       .then(() => done())
+    })
+
     it('GET array all cities', (done) => {
       chai.request(server)
       .get('/api/v1/cities')
@@ -97,9 +110,22 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/cities/:id', () => {
+
+    before(done => {
+      database.migrate.latest()
+       .then(() => done())
+    })
+
+    beforeEach(done => {
+     database.migrate.rollback()
+       .then(() => database.migrate.latest())
+       .then(() => database.seed.run())
+       .then(() => done())
+    })
+
     it('GET a city by id', (done) => {
       chai.request(server)
-      .get('/api/v1/cities/23')
+      .get('/api/v1/cities/2')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
@@ -115,24 +141,18 @@ describe('API Routes', () => {
         name: 'Hogsmeade'
       })
       .end((error, response) => {
-        response.should.have.status(200)
+        response.should.have.status(202)
         response.should.be.json
         response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('Hogsmeade')
-        response.body.should.have.property('state')
-        response.body.state.should.equal('NY')
-        response.body.should.have.property('population')
-        response.body.population.should.equal(8622698)
-        response.body.should.have.property('capital')
-        response.body.capital.should.equal(false)
+        response.body.should.have.property('statusText')
+        response.body.statusText.should.equal('City with id "1" was successfully updated.')
         done()      
       })
     })
 
     it('DELETE a city by id', (done) => {
       chai.request(server)
-      .delete('/api/v1/cities/24')
+      .delete('/api/v1/cities/1')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
@@ -142,90 +162,72 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/restaurants', () => {
+
+    before(done => {
+      database.migrate.latest()
+       .then(() => done())
+    })
+
+    beforeEach(done => {
+     database.migrate.rollback()
+       .then(() => database.migrate.latest())
+       .then(() => database.seed.run())
+       .then(() => done())
+    })
+
     it('GET array all restaurants', (done) => {
       chai.request(server)
       .get('/api/v1/restaurants')
       .end((error, response) => {
-        console.log(response.body)
         response.should.have.status(200)
         response.should.be.json
         response.body.should.be.a('array')
         response.body[0].should.have.property('name')
         response.body[0].name.should.equal('Los Tacos No. 1')
         response.body[0].should.have.property('address')
-        response.body[0].property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
+        response.body[0].address.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
         response.body[0].should.have.property('city')
         response.body[0].city.should.equal('New York City')
         response.body[0].should.have.property('rating')
-        response.body[0].rating.should.equal(4.4)
+        response.body[0].rating.should.equal(4)
         response.body[0].should.have.property('avg_cost')
         response.body[0].avg_cost.should.equal('$25')
-        done()
-      })
-    })
-
-    it('POST a restaurant to the restaurants array', (done) => {
-      chai.request(server)
-      .post('/api/v1/cities/23/restaurants')
-      .send({
-        name: 'Lotsa Tacos',
-        address: '123 Another Street',
-        city: 'Hogsmeade',
-        rating: 1.1,
-        avg_cost: '$100'
-      })
-      .end((error, response) => {
-        response.should.have.status(201)
-        response.should.be.json
-        response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('Lotsa Tacos')
-        response.body.should.have.property('address')
-        response.body.property.should.equal('123 Another Street')
-        response.body.should.have.property('city')
-        response.body.city.should.equal('Hogsmeade')
-        response.body.should.have.property('rating')
-        response.body.rating.should.equal(1.1)
-        response.body.should.have.property('avg_cost')
-        response.body.avg_cost.should.equal('$100')
-        done()
-      })
-    })
-
-    it('POST sad: fail to add restaurant to the restaurants array', (done) => {
-      chai.request(server)
-      .post('/api/v1/students')
-      .send({
-        name: 'All The Tacos',
-        address: '345 Yet Another Street'
-      })
-      .end((error, response) => {
-        response.should.have.status(422)
-        response.should.be.json
-        response.body.should.have.property('error')
         done()
       })
     })
   })
 
   describe('/api/v1/restaurants/:id', () => {
+
+    before(done => {
+      database.migrate.latest()
+       .then(() => done())
+    })
+
+    beforeEach(done => {
+     database.migrate.rollback()
+       .then(() => database.migrate.latest())
+       .then(() => database.seed.run())
+       .then(() => done())
+    })
+
     it('GET a restaurant by id', (done) => {
       chai.request(server)
       .get('/api/v1/restaurants/1')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
-        response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('Los Tacos No. 1')
-        response.body.should.have.property('address')
-        response.body.property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
-        response.body.should.have.property('city')
-        response.body.city.should.equal('New York City')
-        response.body.should.have.property('rating')
-        response.body.rating.should.equal(4.4)
-        response.body.should.have.property('avg_cost')
-        response.body.avg_cost.should.equal('$25')
+        response.body.should.be.a('array')
+        response.body[0].should.have.property('name')
+        response.body[0].name.should.equal('Los Tacos No. 1')
+        response.body[0].should.have.property('address')
+        response.body[0].address.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
+        response.body[0].should.have.property('city')
+        response.body[0].city.should.equal('New York City')
+        response.body[0].should.have.property('rating')
+        response.body[0].rating.should.equal(4)
+        response.body[0].should.have.property('avg_cost')
+        response.body[0].avg_cost.should.equal('$25')
         done()
       })
     })
@@ -237,19 +239,11 @@ describe('API Routes', () => {
         name: 'All The Tacos'
       })
       .end((error, response) => {
-        response.should.have.status(200)
+        response.should.have.status(202)
         response.should.be.json
         response.body.should.be.a('object')
-        response.body.should.have.property('name')
-        response.body.name.should.equal('All The Tacos')
-        response.body.should.have.property('address')
-        response.body.property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
-        response.body.should.have.property('city')
-        response.body.city.should.equal('New York City')
-        response.body.should.have.property('rating')
-        response.body.rating.should.equal(4.4)
-        response.body.should.have.property('avg_cost')
-        response.body.avg_cost.should.equal('$25')
+        response.body.should.have.property('sendStatus')
+        response.body.sendStatus.should.equal('Restaurant with id 1 was successfully updated.')
         done()
       })
     })
@@ -262,16 +256,29 @@ describe('API Routes', () => {
         response.should.be.json
         response.body.should.be.a('object')
         response.body.should.have.property('id')
-        response.body.id.should.equal(1)
+        response.body.id.should.equal('1')
         done()
       })
     })
   })
 
   describe('/api/v1/cities/:id/restaurants', () => {
+
+    before(done => {
+      database.migrate.latest()
+       .then(() => done())
+    })
+
+    beforeEach(done => {
+     database.migrate.rollback()
+       .then(() => database.migrate.latest())
+       .then(() => database.seed.run())
+       .then(() => done())
+    })
+
     it('GET restaurants from a specific city by id', (done) => {
       chai.request(server)
-      .get('/api/v1/cities/23/restaurants')
+      .get('/api/v1/cities/1/restaurants')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
@@ -279,11 +286,11 @@ describe('API Routes', () => {
         response.body[0].should.have.property('name')
         response.body[0].name.should.equal('Los Tacos No. 1')
         response.body[0].should.have.property('address')
-        response.body[0].property.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
+        response.body[0].address.should.equal('Chelsea Market, 75 9th Avenue, New York 10011')
         response.body[0].should.have.property('city')
         response.body[0].city.should.equal('New York City')
         response.body[0].should.have.property('rating')
-        response.body[0].rating.should.equal(4.4)
+        response.body[0].rating.should.equal(4)
         response.body[0].should.have.property('avg_cost')
         response.body[0].avg_cost.should.equal('$25')
         done()
@@ -292,7 +299,7 @@ describe('API Routes', () => {
 
     it('POST restaurant to the restaurants array of a specific city by id', (done) => {
       chai.request(server)
-      .post('/api/v1/cities/23/restaurants')
+      .post('/api/v1/cities/1/restaurants')
       .send({
         name: 'Lotsa Tacos',
         address: '123 Another Street',
@@ -307,7 +314,7 @@ describe('API Routes', () => {
         response.body.should.have.property('name')
         response.body.name.should.equal('Lotsa Tacos')
         response.body.should.have.property('address')
-        response.body.property.should.equal('123 Another Street')
+        response.body.address.should.equal('123 Another Street')
         response.body.should.have.property('city')
         response.body.city.should.equal('Hogsmeade')
         response.body.should.have.property('rating')

@@ -60,7 +60,7 @@ app.get('/api/v1/cities/:id', (request, response) => {
   database('cities').where('id', id).select()
   .then(city => {
     if (city.length !== 0) {
-     response.status(200).json(city) 
+     response.status(200).json({ city }) 
     } else {
       response.status(404).send({ error: `City with id ${id} was not found in the database`})
     }
@@ -85,9 +85,9 @@ app.put('/api/v1/cities/:id', (request, response) => {
   })
   .then(city => {
     if (city === 1) {
-      response.status(202).send(`City with id ${id} was successfully updated.`)
+      response.status(202).send({ statusText: `City with id "${id}" was successfully updated.` })
     } else {
-      response.status(404).send(`A city with id ${id} could not be found.`)
+      response.status(404).send({ error: `A city with id "${id}" could not be found.` })
     }
   })
   .catch(error => {
@@ -100,13 +100,13 @@ app.delete('/api/v1/cities/:id', (request, response) => {
   database('restaurants').where('city_id', request.params.id).del()
   .then(() => { 
     database('cities').where('id', request.params.id).del()
-  })
-  .then(cityId => {
-    if (cityId) {
-      response.status(200).json({ id: request.params.id })
-    } else {
-      response.status(404).send('No city with that ID currently exists')
-    }
+    .then(cityId => {
+      if (cityId) {
+        response.status(200).json({ id: request.params.id })
+      } else {
+        response.status(404).send({ error: 'No city with that ID currently exists' })
+      }
+    })
   })
   .catch(error => {
     response.status(500).json({ error })
@@ -146,7 +146,7 @@ app.put('/api/v1/restaurants/:id', (request, response, next) => {
   })
   .then(restaurant => {
     if (restaurant === 1) {
-      response.status(202).send(`Restaurant with id ${id} was successfully updated.`)
+      response.status(202).send({ sendStatus: `Restaurant with id ${id} was successfully updated.` })
     } else {
       response.status(404).send(`A restaurant with id ${id} could not be found.`)
     }
@@ -193,12 +193,13 @@ app.post('/api/v1/cities/:id/restaurants', (request, response) => {
   for (let requiredParameter of ['name', 'city', 'address', 'rating', 'avg_cost']) {
     if (!restaurant[requiredParameter]) {
       return response.status(422)
-        .send({ error: `Expected format: { name: <String>, city: <String>, address: <String>, 
-                        rating: <String>, avg_cost: <String> }. You're missing a "${requiredParameter}" property.` });
+        .send({ error: `Expected format: { name: <String>, city: <String>,
+                address: <String>, rating: <String>, avg_cost: <String> }. 
+                You're missing a "${requiredParameter}" property.` })
     }
   }
 
-  database('restaurants').insert(restaurant, 'id')
+  database('restaurants').insert({...restaurant, city_id: id}, 'id')
   .then(restaurant => {
     response.status(201).json({ ...request.body, id: restaurant[0], city_id: id })
   })
