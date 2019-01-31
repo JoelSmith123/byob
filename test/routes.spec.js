@@ -36,7 +36,6 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/cities', () => {
-
     before(done => {
       database.migrate.latest()
        .then(() => done())
@@ -48,7 +47,6 @@ describe('API Routes', () => {
        .then(() => database.seed.run())
        .then(() => done())
     })
-
     it('GET array all cities', (done) => {
       chai.request(server)
       .get('/api/v1/cities')
@@ -110,7 +108,6 @@ describe('API Routes', () => {
   })
 
   describe('/api/v1/cities/:id', () => {
-
     before(done => {
       database.migrate.latest()
        .then(() => done())
@@ -122,10 +119,9 @@ describe('API Routes', () => {
        .then(() => database.seed.run())
        .then(() => done())
     })
-
     it('GET a city by id', (done) => {
       chai.request(server)
-      .get('/api/v1/cities/2')
+      .get('/api/v1/cities/1')
       .end((error, response) => {
         response.should.have.status(200)
         response.should.be.json
@@ -138,7 +134,8 @@ describe('API Routes', () => {
       chai.request(server)
       .put('/api/v1/cities/1')
       .send({
-        name: 'Hogsmeade'
+        name: 'Hogsmeade',
+        population: 2000,
       })
       .end((error, response) => {
         response.should.have.status(202)
