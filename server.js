@@ -96,7 +96,7 @@ app.put('/api/v1/cities/:id', (request, response) => {
     }
   })
   .catch(error => {
-    response.status(422).json({error})
+    response.status(500).json({error})
   })
 })
 
