@@ -19,7 +19,9 @@ These set up instructions assume that you already have the following installed:
 
 #### Install and Start Server
 
-* `git clone https://github.com/JoelSmith123/byob.git`
+Begin by forking this repo using the Fork button in the top-right corner of this screen.
+
+* `git clone https://github.com/YOUR_GITHUB_USERNAME/byob.git`
 
 * `cd byob`
 
