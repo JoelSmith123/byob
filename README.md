@@ -19,7 +19,7 @@ These set up instructions assume that you already have the following installed:
 
 #### Install and Start Server
 
-Begin by forking this repo using the Fork button in the top-right corner of this screen.
+* Begin by forking this repo using the Fork button in the top-right corner of this screen.
 
 * `git clone https://github.com/YOUR_GITHUB_USERNAME/byob.git`
 
@@ -82,7 +82,6 @@ POST /api/v1/cities/:id/restaurants // create a new taco restaurant in a specifi
 
 - To send a Pull Request via GitHub:
     - Checkout into a new branch
-    - Add a forked version of this repo as your remote
     - Please make sure to write tests for any additions to the front end
     - Please make sure all tests are passing before making a pull request
     - Push changes up to the forked repo
