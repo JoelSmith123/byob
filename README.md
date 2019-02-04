@@ -2,7 +2,9 @@
 
 This database serves up taco restaurants for every major city in the United States.
 
-## Technologies
+These set up instructions assume that you already have the following installed:
+
+## Technologies/Dependencies
 - Node.js
 - Express
 - Knex.js
@@ -10,18 +12,23 @@ This database serves up taco restaurants for every major city in the United Stat
 - Mocha
 - Chai 
 - Chai-http
+- PostgreSQL
+- body-parser
 
 ## Installation and Contribution Instructions
 
 #### Install and Start Server
-* Clone this repo.
+
+* `git clone https://github.com/JoelSmith123/byob.git`
+
+* `cd byob`
 
 * `npm install`
 
 * `npm start`
 
 #### Create Postgres Database and Run Migrations
-* `psql CREATE DATABASE cities_restaurants`
+* `psql CREATE DATABASE cities_restaurants;`
 
 * `knex migrate:latest`
 
@@ -29,6 +36,9 @@ This database serves up taco restaurants for every major city in the United Stat
 
 #### Run tests 
 * `npm test`
+
+#### Run eslint
+* `npm run eslint`
 
 ### API Endpoints
 #### Cities
