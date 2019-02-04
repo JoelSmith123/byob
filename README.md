@@ -13,7 +13,7 @@ These set up instructions assume that you already have the following installed:
 - Chai 
 - Chai-http
 - PostgreSQL
-- body-parser
+- Body-parser
 
 ## Installation and Contribution Instructions
 
