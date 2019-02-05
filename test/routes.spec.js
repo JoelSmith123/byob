@@ -177,8 +177,7 @@ describe('API Routes', () => {
       chai.request(server)
       .delete('/api/v1/cities/1')
       .end((error, response) => {
-        response.should.have.status(200)
-        response.should.be.json
+        response.should.have.status(204)
         done()
       })
     })
@@ -315,11 +314,7 @@ describe('API Routes', () => {
       chai.request(server)
       .delete('/api/v1/restaurants/1')
       .end((error, response) => {
-        response.should.have.status(200)
-        response.should.be.json
-        response.body.should.be.a('object')
-        response.body.should.have.property('id')
-        response.body.id.should.equal('1')
+        response.should.have.status(204)
         done()
       })
     })

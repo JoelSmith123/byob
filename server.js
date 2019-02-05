@@ -120,7 +120,7 @@ app.delete('/api/v1/cities/:id', (request, response) => {
     database('cities').where('id', request.params.id).del()
     .then((cityId) => {
       if (cityId) {
-        response.status(200).json({ id: request.params.id })
+        response.sendStatus(204)
       } else {
         response.status(404).send('No city with that ID currently exists.')
       }
@@ -183,7 +183,7 @@ app.delete('/api/v1/restaurants/:id', (request, response) => {
   database('restaurants').where('id', request.params.id).del()
   .then(restaurantId => {
     if (restaurantId) {
-      response.status(200).json({ id: request.params.id })
+      response.sendStatus(204)
     } else {
       response.status(404).send('No restaurant with that ID currently exists')
     }
