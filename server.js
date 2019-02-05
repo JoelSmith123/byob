@@ -28,7 +28,7 @@ app.post('/api/v1/cities', (request, response) => {
   for (let requiredParameter of ['name', 'state', 'population']) {
     if (!city[requiredParameter]) {
       return response.status(422)
-        .send({ error: `Expected format: { name: <String>, state: <String>,
+        .json({ error: `Expected format: { name: <String>, state: <String>,
                         population: <String>, capital: <Boolean> }.
                         You're missing a "${requiredParameter}" property.` })
     }
@@ -76,7 +76,7 @@ app.get('/api/v1/cities/:id', (request, response) => {
     if (city.length !== 0) {
      response.status(200).json(city) 
     } else {
-      response.status(404).send({ 
+      response.status(404).json({ 
         error: `City with id ${id} was not found in the database`
       })
     }
@@ -101,11 +101,11 @@ app.put('/api/v1/cities/:id', (request, response) => {
   })
   .then(city => {
     if (city === 1) {
-      response.status(202).send({ 
+      response.status(202).json({ 
         statusText: `City with id ${id} was successfully updated.`
       })
     } else {
-      response.status(404).send({ error: `A city with id ${id} could not be found.` })
+      response.status(404).json({ error: `A city with id ${id} could not be found.` })
     }
   })
   .catch(error => {
@@ -122,7 +122,7 @@ app.delete('/api/v1/cities/:id', (request, response) => {
       if (cityId) {
         response.sendStatus(204)
       } else {
-        response.status(404).send('No city with that ID currently exists.')
+        response.status(404).json({error: 'No city with that ID currently exists.'})
       }
     })
   })
@@ -140,7 +140,7 @@ app.get('/api/v1/restaurants/:id', (request, response) => {
     if (restaurant.length !== 0) {
      response.status(200).json(restaurant) 
     } else {
-      response.status(404).send({ 
+      response.status(404).json({ 
         error: `Restaurant with id ${id} was not found in the database.`
       })
     }
@@ -166,11 +166,11 @@ app.put('/api/v1/restaurants/:id', (request, response) => {
   })
   .then(restaurant => {
     if (restaurant === 1) {
-      response.status(202).send({ 
+      response.status(202).json({ 
         sendStatus: `Restaurant with id ${id} was successfully updated.` 
       })
     } else {
-      response.status(404).send(`Restaurant with id ${id} could not be found.`)
+      response.status(404).json({error: `Restaurant with id ${id} could not be found.`})
     }
   })
   .catch(error => {
@@ -185,7 +185,7 @@ app.delete('/api/v1/restaurants/:id', (request, response) => {
     if (restaurantId) {
       response.sendStatus(204)
     } else {
-      response.status(404).send('No restaurant with that ID currently exists')
+      response.status(404).json({error:'No restaurant with that ID currently exists'})
     }
   })
   .catch(error => {
@@ -200,7 +200,7 @@ app.get('/api/v1/cities/:id/restaurants', (request, response) => {
     if (restaurants.length) {
       response.status(200).json(restaurants)
     } else {
-      response.status(404).send('No restaurants are listed for that city.')
+      response.status(404).json({error: 'No restaurants are listed for that city.'})
     }
   })
   .catch(error => {
@@ -216,7 +216,7 @@ app.post('/api/v1/cities/:id/restaurants', (request, response) => {
   for (let requiredParameter of ['name', 'city', 'address', 'rating', 'avg_cost']) {
     if (!restaurant[requiredParameter]) {
       return response.status(422)
-        .send({ error: `Expected format: { name: <String>, city: <String>,
+        .json({ error: `Expected format: { name: <String>, city: <String>,
                 address: <String>, rating: <String>, avg_cost: <String> }. 
                 You're missing a "${requiredParameter}" property.` })
     }

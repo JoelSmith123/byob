@@ -187,7 +187,7 @@ describe('API Routes', () => {
       .delete('/api/v1/cities/100')
       .end((error, response) => {
         response.should.have.status(404)
-        response.should.be.html
+        response.should.be.json
         done()
       })
     })
