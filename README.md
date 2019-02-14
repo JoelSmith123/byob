@@ -95,4 +95,4 @@ POST /api/v1/cities/:id/restaurants // create a new taco restaurant in a specifi
 
 ## Contributors
  * Kylie Stanley [GitHub](https://github.com/kyliestanley) [LinkedIn](https://www.linkedin.com/in/kyliestanley/)
- * Joel Smith [GitHub](https://github.com/JoelSmith123) [Twitter](https://twitter.com/j0elsmith123) [LinkedIn](https://www.linkedin.com/in/joelsmith123/) 
+ * Joel Smith [GitHub](https://github.com/JoelSmith123) [LinkedIn](https://www.linkedin.com/in/joelsmith123/) 
